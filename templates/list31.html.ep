@@ -1,0 +1,19 @@
+ <meta charset="utf-8">
+ 
+
+
+ <form action="page32">
+  <p><b>Дай ответ на вопрос №31?</b></p>
+
+  <img src="/picture031.jpg">
+  <p>
+	  <input type="radio" name="answer1" value="Не верно">01<br>
+	  <input type="radio" name="answer2" value="Не верно">02<br>
+	  <input type="radio" name="answer3" value="Верно">03<br>
+	  <input type="submit">
+  </p>
+</form>
+
+
+
+  
