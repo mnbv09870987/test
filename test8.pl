@@ -16,7 +16,7 @@ use strict;
 print "\n@as\n@bs\n@cs\n@ds\n\n\n";
 
 	while( @as && @bs && @cs && @ds ) {
-		
+	
 		if( $as[0] < $bs[0]) {
 
 					if( $as[0] < $cs[0]) {
@@ -31,7 +31,8 @@ print "\n@as\n@bs\n@cs\n@ds\n\n\n";
 				     	        print "TWO_NEXT: --$as[0] == @as    -- $bs[0] == @bs    --$cs[0] == @cs     --$ds[0] == @ds  \n";
 					            shift @ds;
 				                } 
-			
+				              }
+				      else{
 					   if ( $cs[0] < $ds[0]) {
 					   print $cs[0], " ";
 					   print "THREE_NEXT: --$as[0] == @as    -- $bs[0] == @bs    --$cs[0] == @cs     --$ds[0] == @ds  \n";
@@ -43,24 +44,26 @@ print "\n@as\n@bs\n@cs\n@ds\n\n\n";
 					        print "FOUR_NEXT: --$as[0] == @as    -- $bs[0] == @bs    --$cs[0] == @cs     --$ds[0] == @ds  \n";
 					    shift @ds;
 					    } 
-					
+					   }
                      }
+             else{     
       		if ( $bs[0] < $cs[0]) {
 
-				  if( $bs[0] < $ds[0]) {
-				  print $bs[0], " ";
-				  print "FIVE_NEXT: --$as[0] == @as    -- $bs[0] == @bs    --$cs[0] == @cs     --$ds[0] == @ds  \n";
-				  shift @bs;
-				  }
-				   else {
-				   print $ds[0], " ";		
-				   print "SIX_NEXT: --$as[0] == @as    -- $bs[0] == @bs    --$cs[0] == @cs     --$ds[0] == @ds  \n";
-				   shift @ds;
-				   } 
-				}
-		    
+						  if( $bs[0] < $ds[0]) {
+						  print $bs[0], " ";
+						  print "FIVE_NEXT: --$as[0] == @as    -- $bs[0] == @bs    --$cs[0] == @cs     --$ds[0] == @ds  \n";
+						  shift @bs;
+						  }
+						   else {
+						   print $ds[0], " ";		
+						   print "SIX_NEXT: --$as[0] == @as    -- $bs[0] == @bs    --$cs[0] == @cs     --$ds[0] == @ds  \n";
+						   shift @ds;
+						   } 
+				
+		    }
 
       
+        else{
 		if ( $cs[0] < $ds[0]) {
 		   print $cs[0], " ";
 		   print "SEVEN_NEXT: --$as[0] == @as    -- $bs[0] == @bs    --$cs[0] == @cs     --$ds[0] == @ds  \n";
@@ -72,9 +75,11 @@ print "\n@as\n@bs\n@cs\n@ds\n\n\n";
 		        print "8_NEXT: --$as[0] == @as    -- $bs[0] == @bs    --$cs[0] == @cs     --$ds[0] == @ds  \n";
 		    shift @ds;
 		    } 
+		
 	}
-							
+	}						
 					   
 }
+
 
 	print "\n@as\n@bs\n@cs\n@ds\n\n\n";
