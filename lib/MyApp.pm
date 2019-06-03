@@ -5,6 +5,8 @@ use Mojo::Base 'Mojolicious';
 sub startup {
   my $self = shift;
 
+  unshift @{ $self->commands->namespaces }, 'MyApp::Command';
+
   # Load configuration from hash returned by "my_app.conf"
   my $config = $self->plugin('Config');
 
