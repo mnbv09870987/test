@@ -8,7 +8,7 @@ sub startup {
   unshift @{ $self->commands->namespaces }, 'MyApp::Command';
 
   # Load configuration from hash returned by "my_app.conf"
-  my $config = $self->plugin('Config');
+  my $config = $self->plugin('Config', {file => 'etc/my_app.conf'});
 
   # Documentation browser under "/perldoc"
   $self->plugin('PODRenderer') if $config->{perldoc};
