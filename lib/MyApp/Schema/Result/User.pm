@@ -17,6 +17,10 @@ $T->add_columns(
 		data_type =>  'text',
 		size      =>  128,
 	},
+	age =>  {
+		data_type   =>  'integer',
+		is_nullable =>  1,
+	},
 );
 
 $T->set_primary_key( 'id' );
