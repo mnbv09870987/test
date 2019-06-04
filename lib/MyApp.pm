@@ -32,6 +32,9 @@ sub startup {
 
   $r->get('/qqq124')->to('form2#soccer');
 
+  $r->get( '/db' )->to( 'database#query' );
+  $r->get( '/db_insert' )->to( 'database#insert' );
+
   $r->get('/page01')->to('list1#soc01');
   $r->get('/page02')->to('list1#soc02');
   $r->get('/page03')->to('list1#soc03');

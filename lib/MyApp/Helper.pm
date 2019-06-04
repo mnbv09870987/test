@@ -57,8 +57,9 @@ sub model {
 	my $insecure =  $table_name =~ s/^\!(.*)$/$1/; # HUG
 
 	my $rs =  $c->db->resultset( $table_name );
-	return $rs   if $insecure  ||  $_[0]  &&  $_[0] eq 'insecure';
-	return $rs->guard( $c );
+	return $rs;
+	# return $rs   if $insecure  ||  $_[0]  &&  $_[0] eq 'insecure';
+	# return $rs->guard( $c );
 }
 
 
