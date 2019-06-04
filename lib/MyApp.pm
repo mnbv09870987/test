@@ -1,6 +1,8 @@
 package MyApp;
 use Mojo::Base 'Mojolicious';
 
+use MyApp::Helper;
+
 # This method will run once at server start
 sub startup {
   my $self = shift;
@@ -12,6 +14,8 @@ sub startup {
 
   # Documentation browser under "/perldoc"
   $self->plugin('PODRenderer') if $config->{perldoc};
+
+  MyApp::Helper::add_helpers( $self );
 
 
   # Router
