@@ -114,7 +114,7 @@ test:
 	echo "OK"
 
 
-APP_NAMESPACE=HyperMouse::Schema
+APP_NAMESPACE=MyApp::Schema
 
 export DBIC_MIGRATION_DSN      =  ${DB_DSN}
 export DBIC_MIGRATION_USERNAME =  ${DB_USER}
