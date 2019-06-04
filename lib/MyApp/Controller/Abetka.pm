@@ -17,6 +17,6 @@ sub dock {
 
   # Render template "example/welcome.html.ep" with message
   $self->render(  text => "Hello, $name. Is your phone really $phone Kiyvstar          азбука gert              Suma is: $result" );
-}
+}			
 
 1;
