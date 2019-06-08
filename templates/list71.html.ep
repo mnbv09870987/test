@@ -1,12 +1,7 @@
  <meta charset="utf-8">
  
-
-
- <form action="page01">
   <p><b>ТЕСТ ЗАВЕРШЁН</b></p>
-
-  <input type="submit">
-</form>
+  <p><b><%= $name %>, количество ваших правильных ответов -->> <%= $kol %></b></p>
 
 
 

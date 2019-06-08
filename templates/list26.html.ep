@@ -2,14 +2,14 @@
  
 
 
- <form action="page27">
+  <form action="/page26/<%= $user_id %>" method="POST">
   <p><b>Дай ответ на вопрос №26?</b></p>
 
   <img src="/picture026.jpg">
   <p>
-	  <input type="radio" name="answer1" value="Не верно">01<br>
-	  <input type="radio" name="answer2" value="Верно">02<br>
-	  <input type="radio" name="answer3" value="Не верно">03<br>
+	  <input type="radio" name="answer" value="1" >Вариант 01<br>
+	  <input type="radio" name="answer" value="2" >Вариант 02<br>
+	  <input type="radio" name="answer" value="3" >Вариант 03<br>
 	  <input type="submit">
   </p>
 </form>
