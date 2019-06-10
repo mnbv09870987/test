@@ -60,7 +60,6 @@ sub proverka_otvetov {
 
   my $u =  $c->model( 'User' )->search({ id => $uid })->first;
 
-  my $otvety = 0;
   my %hash1 = ( 1 => 2, 2 => 2, 3 => 1, 4 => 3, 5 => 2,
                 6 => 2, 7 => 3, 8 => 3, 9 => 2, 10 => 3,
                 11 => 2, 12 => 2, 13 => 2, 14 => 3, 15 => 2,
@@ -76,23 +75,16 @@ sub proverka_otvetov {
                 61 => 2, 62 => 1, 63 => 3, 64 => 2, 65 => 1,
                 66 => 2, 67 => 3, 68 => 1, 69 => 2, 70 => 1,
               );
-  my %hash2 = ();
- 
-  for my $cycle  ( @a ) {
-    $hash2{$cycle->question} = $cycle->answer;
-  }
 
-  for my $cycle ( keys %hash1 ) {
-    unless ( exists $hash2{$cycle} ) {
-     next;
-    }
-
-    if ( $hash1{$cycle} eq $hash2{$cycle} ) {
-      $otvety = $otvety +1;
+  my $kol = 0;
+  for my $a ( @a ) {
+     if( $hash1{ $a->question } == $a->answer ) {
+      $kol++;
     }
   }
 
-  $c->render( "results", kol => $otvety, name => $u->name );
+
+  $c->render( "results", kol => $kol, name => $u->name );
 
 }
 
