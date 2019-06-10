@@ -1,0 +1,24 @@
+ <meta charset="utf-8">
+ 
+
+
+
+  <p><b> Здравствуйте </b></p>
+  <p><b> Пройдите пожалуйста тест на механическую понятливость </b></p>
+
+
+  <p><b> Введите свою фамилию и имя </b></p>
+
+
+  <form action="/page00" method="POST">
+  <input name = "answer" type = "text" >
+
+<p><b> Введите свой возвраст </b></p>
+
+
+  <input name = "answer1" type = "text" >
+  <input type = "submit">
+
+</form>
+
+  
