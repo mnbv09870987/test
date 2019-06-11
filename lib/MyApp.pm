@@ -22,11 +22,11 @@ sub startup {
 
 
   my $r = $self->routes;
-  $r->get('/page00')->to('list1#soc00');
-  $r->post('/page00')->to('list1#vvod_dannyh');
+  $r->get('/start')->to('list1#novoe');
+  $r->post('/start')->to('list1#vvod_dannyh');
 
-  $r->get('/page/<num:num>')->to('list1#soc') -> name( 'stranitsa' );
-  $r->post('/page/<num:num>')->to('list1#answer');
+  $r->get('/page')->to('list1#programma') -> name( 'stranitsa' );
+  $r->post('/page')->to('list1#answer');
 
   $r->get('/results')->to('list1#proverka_otvetov') -> name( 'finish' );
  

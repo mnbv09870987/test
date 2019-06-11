@@ -6,10 +6,10 @@ use Mojo::Base 'Mojolicious::Controller';
 use strict;
 use warnings;
 
-sub soc00 {
+sub novoe {
   my $c = shift;
 
-  $c->render( "list0" );
+  $c->render( "start_list" );
 }
 
 sub vvod_dannyh {
@@ -19,43 +19,50 @@ sub vvod_dannyh {
   my $input1 =  $c->param( 'answer1' );
   my $u =  $c->model( 'User' )->create({ name => $input, age => $input1 });
   $c->cookie( user_id => $u->id );
-  $c->redirect_to( 'stranitsa', num => 1 );
+  $c->cookie( num => 1 );
+  $c->redirect_to ( 'stranitsa' );
 }
 
 
-sub soc {
-  my $c = shift;
+sub programma {
+  my( $c ) =  @_;
 
   my $uid =  $c->cookie( 'user_id' );
-  my $num =  $c->param( 'num' );
+  my $num =  $c->cookie( 'num' );
 
   $c->render( "list", user_id => $uid, number => $num );
 }
 
 sub answer {
-  my $c = shift;
+  my( $c ) =  @_;
+
   my $input =  $c->param( 'answer' );
 
+  if ( $input == undef ) {
+    $c->redirect_to( 'stranitsa' );
+    return;
+  }
+
   my $uid =  $c->cookie( 'user_id' );
-  my $num =  $c->param( 'num' );
+  my $num =  $c->cookie( 'num' );
   my $a =  $c->model( 'Answer' )->create({ 
     answer => $input, 
     question => $num,
     user_id => $uid,
   });
 
+
   if ( $num == 70 ) {
-    # $c->redirect_to( "/results/$uid" );
-    # $c->redirect_to( "/results/" .$uid);
     $c->redirect_to( "finish" );
   }
   else {
-    $c->redirect_to( 'stranitsa', num => $num+1 );
+    $c->cookie( num => $num+1 );
+    $c->redirect_to( 'stranitsa' );
   }
 }
 
 sub proverka_otvetov {
-  my $c = shift;
+  my( $c ) =  @_;
   my $uid =  $c->cookie( 'user_id' );
 
   my @a =  $c->model( 'Answer' )->search({ user_id => $uid })->all;

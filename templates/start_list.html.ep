@@ -9,16 +9,16 @@
 
   <p><b> Введите свою фамилию и имя </b></p>
 
+ <form action="/start" method="POST">
 
-  <form action="/page00" method="POST">
   <input name = "answer" type = "text" >
 
-<p><b> Введите свой возвраст </b></p>
+  <p><b> Введите свой возвраст </b></p>
 
 
   <input name = "answer1" type = "text" >
   <input type = "submit">
 
-</form>
+ </form>
 
   
