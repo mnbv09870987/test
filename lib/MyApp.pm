@@ -25,10 +25,10 @@ sub startup {
   $r->get('/page00')->to('list1#soc00');
   $r->post('/page00')->to('list1#vvod_dannyh');
 
-  $r->get('/page/<user_id:num>/<num:num>')->to('list1#soc') -> name( 'stranitsa' );
-  $r->post('/page/<user_id:num>/<num:num>')->to('list1#answer');
+  $r->get('/page/<num:num>')->to('list1#soc') -> name( 'stranitsa' );
+  $r->post('/page/<num:num>')->to('list1#answer');
 
-  $r->get('/results/<user_id:num>')->to('list1#proverka_otvetov') -> name( 'finish' );
+  $r->get('/results')->to('list1#proverka_otvetov') -> name( 'finish' );
  
 }
 

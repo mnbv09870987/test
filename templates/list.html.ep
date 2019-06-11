@@ -2,7 +2,7 @@
  
 
 
-  <form action="/page/<%= $user_id %>/<%= $num %>" method="POST">
+  <form action="/page/<%= $num %>" method="POST">
   <p><b>Дай ответ на вопрос №<%= $num %>?</b></p>
 
   <img src="/picture<%= sprintf "%03d", $num %>.jpg">

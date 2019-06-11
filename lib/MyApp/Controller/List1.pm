@@ -13,18 +13,20 @@ sub soc00 {
 }
 
 sub vvod_dannyh {
-  my $c = shift;
+  # my $c = shift;
+  my( $c ) =  @_;
   my $input =  $c->param( 'answer' );
   my $input1 =  $c->param( 'answer1' );
   my $u =  $c->model( 'User' )->create({ name => $input, age => $input1 });
-  $c->redirect_to( 'stranitsa', user_id => $u->id, num => 1 );
+  $c->cookie( user_id => $u->id );
+  $c->redirect_to( 'stranitsa', num => 1 );
 }
 
 
 sub soc {
   my $c = shift;
 
-  my $uid =  $c->param( 'user_id' );
+  my $uid =  $c->cookie( 'user_id' );
   my $num =  $c->param( 'num' );
 
   $c->render( "list", user_id => $uid, number => $num );
@@ -34,7 +36,7 @@ sub answer {
   my $c = shift;
   my $input =  $c->param( 'answer' );
 
-  my $uid =  $c->param( 'user_id' );
+  my $uid =  $c->cookie( 'user_id' );
   my $num =  $c->param( 'num' );
   my $a =  $c->model( 'Answer' )->create({ 
     answer => $input, 
@@ -45,16 +47,16 @@ sub answer {
   if ( $num == 70 ) {
     # $c->redirect_to( "/results/$uid" );
     # $c->redirect_to( "/results/" .$uid);
-    $c->redirect_to( "finish", user_id => $uid );
+    $c->redirect_to( "finish" );
   }
   else {
-    $c->redirect_to( 'stranitsa', user_id => $uid, num => $num+1 );
+    $c->redirect_to( 'stranitsa', num => $num+1 );
   }
 }
 
 sub proverka_otvetov {
   my $c = shift;
-  my $uid =  $c->param( 'user_id' );
+  my $uid =  $c->cookie( 'user_id' );
 
   my @a =  $c->model( 'Answer' )->search({ user_id => $uid })->all;
 
