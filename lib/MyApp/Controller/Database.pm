@@ -9,7 +9,7 @@ sub query {
 
 	my @text;
 	while( my $row =  $rs->next ) {
-		push @text, $row->name;
+		push @text, $row->name, $row->age;
 	}
 
 	$c->render(  text => 'OK<br>' ."@text" );
