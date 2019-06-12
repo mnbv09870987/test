@@ -1,0 +1,25 @@
+{
+   "might_have" : {
+      "fetch" : 0
+   },
+   "has_many" : {
+      "fetch" : 0
+   },
+   "sets" : [
+      {
+         "class" : "RegistrationDD",
+         "quantity" : "all"
+      },
+      {
+         "quantity" : "all",
+         "class" : "Answer"
+      },
+      {
+         "class" : "User",
+         "quantity" : "all"
+      }
+   ],
+   "belongs_to" : {
+      "fetch" : 0
+   }
+}
