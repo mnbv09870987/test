@@ -38,7 +38,7 @@ sub answer {
   my( $c ) =  @_;
 
   my $input =  $c->param( 'answer' );
-  if ( $input == undef ) {
+  if ( !defined $input ) {
     $c->redirect_to( 'stranitsa' );
     return;
   }
