@@ -13,13 +13,14 @@ sub novoe {
 }
 
 sub vvod_dannyh {
-  # my $c = shift;
   my( $c ) =  @_;
   my $input =  $c->param( 'answer' );
   my $input1 =  $c->param( 'answer1' );
   my $u =  $c->model( 'User' )->create({ name => $input, age => $input1 });
+  my $time = time;
   $c->cookie( user_id => $u->id );
   $c->cookie( num => 1 );
+  $c->cookie( time => $time );
   $c->redirect_to ( 'stranitsa' );
 }
 
@@ -37,11 +38,11 @@ sub answer {
   my( $c ) =  @_;
 
   my $input =  $c->param( 'answer' );
-
   if ( $input == undef ) {
     $c->redirect_to( 'stranitsa' );
     return;
   }
+
 
   my $uid =  $c->cookie( 'user_id' );
   my $num =  $c->cookie( 'num' );
@@ -52,7 +53,9 @@ sub answer {
   });
 
 
-  if ( $num == 70 ) {
+  my $no_time       =  (time - $c->cookie( 'time' )) > 1500;
+  my $last_question =  $num >= 70;
+  if( $no_time  ||  $last_question ) {
     $c->redirect_to( "finish" );
   }
   else {
