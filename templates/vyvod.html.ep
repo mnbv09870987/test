@@ -2,12 +2,11 @@
 
   <p><b>Таблица результатов</b></p>
 
-<ul>
-% while( my( $otvety ) =  each %$answer ) {
-	<li>
-		<p><b><%= $otvety %>, правильных ответов -->>
-		<%= $answer->{$otvety} %></b></p>
-	</li>
 
+
+<ul>
+% for my $otvety (sort keys(%$answer)) {
+	<p><b><%= $otvety %>, правильных ответов -->>
+	<%= $answer->{$otvety} %></b></p>
 % }
 </ul>
