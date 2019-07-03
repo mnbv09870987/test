@@ -1,0 +1,13 @@
+ <meta charset="utf-8">
+
+  <p><b>Таблица результатов</b></p>
+
+<ul>
+% while( my( $otvety ) =  each %$answer ) {
+	<li>
+		<p><b><%= $otvety %>, правильных ответов -->>
+		<%= $answer->{$otvety} %></b></p>
+	</li>
+
+% }
+</ul>

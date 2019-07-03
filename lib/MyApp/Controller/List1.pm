@@ -16,6 +16,12 @@ sub vvod_dannyh {
   my( $c ) =  @_;
   my $input =  $c->param( 'answer' );
   my $input1 =  $c->param( 'answer1' );
+
+  if (  !$input || !$input1 ) {
+    $c->redirect_to ( 'start' );
+    return;
+  }
+
   my $u =  $c->model( 'User' )->create({ name => $input, age => $input1 });
   my $time = time;
   $c->cookie( user_id => $u->id );
@@ -99,6 +105,47 @@ sub proverka_otvetov {
   $c->render( "results", kol => $kol, name => $u->name );
 
 }
+
+
+sub vyvod_rezultatov {
+    my( $c ) =  @_;
+
+    my @user =  $c->model( 'User' )->all;
+    my %otvety = ();
+
+    my %hash1 = ( 1 => 2, 2 => 2, 3 => 1, 4 => 3, 5 => 2,
+                6 => 2, 7 => 3, 8 => 3, 9 => 2, 10 => 3,
+                11 => 2, 12 => 2, 13 => 2, 14 => 3, 15 => 2,
+                16 => 2, 17 => 2, 18 => 3, 19 => 2, 20 => 3,
+                21 => 2, 22 => 1, 23 => 3, 24 => 3, 25 => 2,
+                26 => 2, 27 => 1, 28 => 3, 29 => 2, 30 => 1,
+                31 => 3, 32 => 2, 33 => 1, 34 => 3, 35 => 1,
+                36 => 3, 37 => 2, 38 => 3, 39 => 1, 40 => 2,
+                41 => 1, 42 => 2, 43 => 2, 44 => 1, 45 => 3,
+                46 => 1, 47 => 1, 48 => 1, 49 => 2, 50 => 3,
+                51 => 2, 52 => 1, 53 => 2, 54 => 1, 55 => 1,
+                56 => 2, 57 => 1, 58 => 2, 59 => 2, 60 => 1,
+                61 => 2, 62 => 1, 63 => 3, 64 => 2, 65 => 1,
+                66 => 2, 67 => 3, 68 => 1, 69 => 2, 70 => 1,
+                );
+
+    for my $i (@user) {
+        my @a =  $c->model( 'Answer' )->search({ user_id => $i->id })->all;
+
+        my $kol = 0;
+        for my $a ( @a ) {
+            if( $hash1{ $a->question } == $a->answer ) {
+              $kol++;
+            }
+        }
+
+        $otvety{ $i->name } = $kol;
+    }
+
+    $c->render( "vyvod", answer => \%otvety  );
+
+}
+
 
 
 1;

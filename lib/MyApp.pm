@@ -22,14 +22,16 @@ sub startup {
 
 
   my $r = $self->routes;
-  $r->get('/start')->to('list1#novoe');
+  $r->get('/start')->to('list1#novoe') -> name( 'start' );
   $r->post('/start')->to('list1#vvod_dannyh');
 
   $r->get('/page')->to('list1#programma') -> name( 'stranitsa' );
   $r->post('/page')->to('list1#answer');
 
   $r->get('/results')->to('list1#proverka_otvetov') -> name( 'finish' );
- 
+
+  $r->get('/out')->to('list1#vyvod_rezultatov');
+
 }
 
 1;
