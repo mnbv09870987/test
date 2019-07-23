@@ -20,6 +20,7 @@ sub startup {
 
   MyApp::Helper::add_helpers( $self );
 
+  $self->defaults( layout => 'one' );
 
   my $r = $self->routes;
   $r->get('/start')->to('list1#novoe') -> name( 'start' );

@@ -1,4 +1,7 @@
 <!DOCTYPE html>
+
+<link rel="stylesheet" type="text/css" href="/vyvod.css">
+
 <html>
   <head><title><%= title %></title></head>
   <body><%= content %></body>

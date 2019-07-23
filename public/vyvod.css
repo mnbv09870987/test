@@ -1,0 +1,44 @@
+    
+    p {
+        font: 30pt arial;
+        font-weight: bold;
+    }
+
+    .table {
+        display: grid;
+        grid-template-columns: 70% 30%;
+        width: 80%;
+        font-weight: bold;
+    }
+
+    .table > dt {
+        border: 1px solid black;
+        
+    }
+
+    .title1 {
+        font: 20pt arial;
+        text-align: center;
+        height: 45px;
+     }
+
+    .title2 {
+        text-align: center;
+        height: 45px;
+        font: 20pt arial;
+    }
+
+    .title3 {
+        height: 35px;
+        font: 20pt arial;
+    }
+
+    .title4 {
+        text-align: center;
+        height: 35px;
+        font: 20pt arial;
+    }
+
+
+
+

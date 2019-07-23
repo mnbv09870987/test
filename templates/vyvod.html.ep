@@ -3,10 +3,15 @@
   <p><b>Таблица результатов</b></p>
 
 
+<dl class="table">
+        <dt class="title1">Фамилия Имя
+        <dt class="title2">Правильных ответов
 
-<ul>
-% for my $otvety (sort keys(%$answer)) {
-	<p><b><%= $otvety %>, правильных ответов -->>
-	<%= $answer->{$otvety} %></b></p>
-% }
-</ul>
+%   for my $otvety (sort keys(%$answer)) {
+        <dt class="title3"><a href="/pokazat/"><%= $otvety %></a>
+%#        <dt class="title3"><a href="/pokazat/<%= $->id %>"><%= $otvety %></a>
+        <dt class="title4"><%= $answer->{$otvety} %>
+%   }
+
+</dl> 
+
