@@ -111,6 +111,8 @@ sub proverka_otvetov {
   my $u =  $c->model( 'User' )->search({ id => $uid })->first;
   my $kol =  _total_calc( $c, $uid );
 
+  $c->cookie( user_id => undef );
+
   $c->render( "results", kol => $kol, name => $u->name );
 
 }
