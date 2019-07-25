@@ -23,6 +23,7 @@ sub startup {
   $self->defaults( layout => 'one' );
 
   my $r = $self->routes;
+  $r->get('/')->to('list1#novoe');
   $r->get('/start')->to('list1#novoe') -> name( 'start' );
   $r->post('/start')->to('list1#vvod_dannyh');
 
@@ -31,7 +32,11 @@ sub startup {
 
   $r->get('/results')->to('list1#proverka_otvetov') -> name( 'finish' );
 
-  $r->get('/out')->to('list1#vyvod_rezultatov');
+  $r->get('/out')->to('list1#vyvod_rezultatov') -> name( 'out' );;
+
+  $r->get('/pokazat/:id')->to('list1#pokazat');
+
+  $r->get('/delete/:id')->to('list1#delete') -> name( 'delete' );
 
 }
 

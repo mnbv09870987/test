@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 
 <link rel="stylesheet" type="text/css" href="/vyvod.css">
+<link rel="stylesheet" type="text/css" href="/pokazat.css">
 
 <html>
   <head><title><%= title %></title></head>

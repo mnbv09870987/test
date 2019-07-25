@@ -1,0 +1,58 @@
+    
+    
+    .table_rezult {
+        display: grid;
+        grid-template-columns: 30% 30% 40%;
+        width: 80%;
+        font-weight: bold;
+    }
+
+
+    .table_rezult > dt {
+        border: 1px solid black;
+    }
+
+
+    .stroka1 {
+        grid-column: span 2;
+        font: 20pt arial;
+        text-align: center;
+        height: 35px;
+
+    }
+
+    .stroka2 {
+        font: 20pt arial;
+        text-align: center;
+        height: 35px;
+
+    }
+
+    .stroka3 {
+        grid-column: span 2;
+        font: 20pt arial;
+        text-align: center;
+        height: 35px;
+        font-weight: bold;
+    }
+
+    .stroka4 {
+        font: 20pt arial;
+        text-align: center;
+        height: 35px;
+        font-weight: bold;
+
+    }
+
+    .stroka {
+        font: 15pt arial;
+        text-align: center;
+        height: 25px;
+    }
+
+    .colortext {
+        font: 15pt arial;
+        text-align: center;
+        height: 25px;
+        color: red;
+    }

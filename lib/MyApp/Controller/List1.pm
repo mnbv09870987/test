@@ -51,6 +51,11 @@ sub answer {
 
 
   my $uid =  $c->cookie( 'user_id' );
+    if ( $uid == ' ' ) {
+
+      $c->redirect_to( 'start' );
+      return;
+    }
   my $num =  $c->cookie( 'num' );
   my $a =  $c->model( 'Answer' )->create({ 
     answer => $input, 
@@ -92,15 +97,16 @@ sub answer {
     my( $c, $uid ) =  @_;
 
     my @a =  $c->model( 'Answer' )->search({ user_id => $uid })->all;
-
+    my $size = @a;
     my $kol = 0;
     for my $a ( @a ) {
        if( $hash1{ $a->question } == $a->answer ) {
         $kol++;
       }
+
     }
 
-    return $kol;
+    return ($kol, $size, $uid);
   }
 
 
@@ -109,7 +115,7 @@ sub proverka_otvetov {
   my $uid =  $c->cookie( 'user_id' );
 
   my $u =  $c->model( 'User' )->search({ id => $uid })->first;
-  my $kol =  _total_calc( $c, $uid );
+  my ($kol, $size, $uid) =  _total_calc( $c, $uid );
 
   $c->cookie( user_id => undef );
 
@@ -119,19 +125,58 @@ sub proverka_otvetov {
 
 
 sub vyvod_rezultatov {
+
     my( $c ) =  @_;
 
-    my @user =  $c->model( 'User' )->all;
-    my %otvety = ();
+    my @user =  $c->model( 'User' )
+      # ->search({},{ order_by => 'name' })
+      ->all;
+    my @otvety = ();
 
     for my $i (@user) {
-        $otvety{ $i->name } = _total_calc( $c, $i->id );
+        my %otv = ();
+        my ($kol, $size, $uid) = _total_calc( $c, $i->id );
+        $otv{ name } = $i->name;
+        $otv{ otvety } = $kol;
+        $otv{ size } = $size;
+        $otv{ id } = $uid;
+        push (@otvety, \%otv);
     }
 
-    $c->render( "vyvod", answer => \%otvety  );
+    @otvety = sort { $a->{ name } cmp $b->{ name } } @otvety;
+
+    $c->render( "vyvod", answer => \@otvety  );
 
 }
 
+
+sub pokazat {
+
+    my( $c ) =  @_;
+    my $id =  $c->param( 'id' );
+
+    $c->render( "pokazat", id => $id  );
+
+}
+
+sub delete {
+
+    my( $c ) =  @_;
+    my $id =  $c->param( 'id' );
+
+    my $user =  $c->model( 'User' )->search({
+      id   => $id,
+    })->first;
+    $user->delete;
+
+    my $dsAnswer =  $c->model( 'Answer' )->search({
+       user_id   => $id,
+    });
+    $dsAnswer->delete;
+
+    $c->redirect_to ( 'out' );
+
+}
 
 
 1;

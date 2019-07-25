@@ -1,16 +1,20 @@
  <meta charset="utf-8">
 
-  <p><b>Таблица результатов</b></p>
+  <p class="vyvod_table"><b>Таблица результатов</b></p>
 
 
 <dl class="table">
+        <dt class="title1">id
         <dt class="title1">Фамилия Имя
         <dt class="title2">Правильных ответов
+        <dt class="title2">Действие
 
-%   for my $otvety (sort keys(%$answer)) {
-        <dt class="title3"><a href="/pokazat/"><%= $otvety %></a>
-%#        <dt class="title3"><a href="/pokazat/<%= $->id %>"><%= $otvety %></a>
-        <dt class="title4"><%= $answer->{$otvety} %>
+%     for my $otvety (@$answer) {
+		<dt class="title4"><%= $otvety->{id} %>
+        <dt class="title3"><%= $otvety->{name} %>
+        <dt class="title4"><%= "$otvety->{otvety} из ($otvety->{size})" %>
+        <dt class="title4"><a href="/pokazat/<%= $otvety->{id} %>">Детально</a>
+						   <a href="/delete/<%= $otvety->{id} %>">Удалить</a>
 %   }
 
 </dl> 
