@@ -1,6 +1,6 @@
 package MyApp::Schema;
 
-our $VERSION =  5;
+our $VERSION =  6;
 
 #CHECK LIST:
 # Pay attention when column is renamed: you probably should use RENAME instead
