@@ -20,8 +20,67 @@ sub add_helpers {
 
 
     $app->helper( client_ip   => \&client_ip   );
+
+    $app->helper( table_columns => \&get_table_columns );
+
+    $app->helper( table_grid_conf => \&get_table_grid_conf );
+
 }
 
+
+sub get_table_columns {
+  my( $c, $table ) =  @_;
+  my $conf =  $c->config->{ tables }{ $table };
+  my @columns;
+
+  if( $conf ) {
+  @columns   =  sort { 
+      $conf->{ $a }{ position } <=> $conf->{ $b }{ position } 
+    } grep{ !$conf->{ $_ }{ internal } } keys %$conf;
+  }
+  else {
+    @columns   =  sort $c->model( $table )->result_source->columns;
+   }
+
+   return \@columns;
+}
+
+
+sub get_table_grid_conf {
+	my( $c, $table, $columns, $zzz ) =  @_;
+	my $conf =  $c->config->{ tables }{ $table };
+	my ( @grid_conf, @columns );
+
+	if( $conf ) {
+		@grid_conf =  map{ $conf->{ $_ }{ width } } @$columns;
+		if( $zzz ) { 
+			push @grid_conf, 'actions'
+		}
+	}
+	else {
+		@grid_conf =  map{ '1fr' } @$columns;
+		if( $zzz ) { 
+			push @grid_conf, $c->config->{ actions_column }{ width }
+		}
+	}
+	return \@grid_conf;
+}
+
+
+
+sub get_table_grid_conf_view {
+	my( $c, $table, $columns ) =  @_;
+	my $conf =  $c->config->{ tables }{ $table };
+	my ( @grid_conf, @columns );
+
+	if( $conf ) {
+		@grid_conf =  map{ $conf->{ $_ }{ width } } @$columns;
+	}
+	else {
+		@grid_conf =  map{ '1fr' } @$columns;
+	}
+	return \@grid_conf;
+}
 
 
 ## DB

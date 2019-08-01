@@ -1,3 +1,4 @@
+
 package MyApp::Controller::List1;
 use Mojo::Base 'Mojolicious::Controller';
 
@@ -5,6 +6,8 @@ use Mojo::Base 'Mojolicious::Controller';
 
 use strict;
 use warnings;
+
+# use parent 'MyApp::Controller::User';
 
 sub novoe {
   my $c = shift;
@@ -14,7 +17,7 @@ sub novoe {
 
 sub vvod_dannyh {
   my( $c ) =  @_;
-  my $input =  $c->param( 'answer' );
+  my $input  =  $c->param( 'answer' );
   my $input1 =  $c->param( 'answer1' );
 
   if (  !$input || !$input1 ) {
@@ -128,15 +131,14 @@ sub vyvod_rezultatov {
 
     my( $c ) =  @_;
 
-    my @user =  $c->model( 'User' )
-      # ->search({},{ order_by => 'name' })
-      ->all;
+    my @user =  $c->model( 'User' )->all;
     my @otvety = ();
-
+      
     for my $i (@user) {
         my %otv = ();
         my ($kol, $size, $uid) = _total_calc( $c, $i->id );
         $otv{ name } = $i->name;
+        $otv{ age } = $i->age;
         $otv{ otvety } = $kol;
         $otv{ size } = $size;
         $otv{ id } = $uid;
@@ -150,7 +152,7 @@ sub vyvod_rezultatov {
 }
 
 
-sub pokazat {
+sub view {
 
     my( $c ) =  @_;
     my $id =  $c->param( 'id' );
@@ -158,6 +160,7 @@ sub pokazat {
     $c->render( "pokazat", id => $id  );
 
 }
+
 
 sub delete {
 
@@ -177,6 +180,60 @@ sub delete {
     $c->redirect_to ( 'out' );
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# sub vyvod_rezultatov {
+
+#     my( $c ) =  @_;
+
+#     my @user =  $c->model( 'User' )
+#       # ->search({},{ order_by => 'name' })
+#       ->all;
+#     my @otvety = ();
+
+#     for my $i (@user) {
+#         my %otv = ();
+#         my ($kol, $size, $uid) = _total_calc( $c, $i->id );
+#         $otv{ name } = $i->name;
+#         $otv{ otvety } = $kol;
+#         $otv{ size } = $size;
+#         $otv{ id } = $uid;
+#         push (@otvety, \%otv);
+#     }
+
+#     @otvety = sort { $a->{ name } cmp $b->{ name } } @otvety;
+
+#     $c->render( "vyvod", answer => \@otvety  );
+
+# }
+
+
+# sub pokazat {
+
+#     my( $c ) =  @_;
+#     my $id =  $c->param( 'id' );
+
+#     $c->render( "pokazat", id => $id  );
+
+# }
+
+
 
 
 1;

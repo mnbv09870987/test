@@ -2,6 +2,7 @@
 
 <link rel="stylesheet" type="text/css" href="/vyvod.css">
 <link rel="stylesheet" type="text/css" href="/pokazat.css">
+<link rel="stylesheet" type="text/css" href="/tables.css">
 
 <html>
   <head><title><%= title %></title></head>

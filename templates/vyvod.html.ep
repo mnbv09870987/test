@@ -2,19 +2,23 @@
 
   <p class="vyvod_table"><b>Таблица результатов</b></p>
 
-
+% my ( $class ) = $answer;
+% (my $table) =  (ref $c) =~ m/MyApp::Controller::(.*)/;
+%# my $q = $class->{ answer };
+%# DB::x;
 <dl class="table">
         <dt class="title1">id
         <dt class="title1">Фамилия Имя
         <dt class="title2">Правильных ответов
         <dt class="title2">Действие
 
-%     for my $otvety (@$answer) {
+%     for my $otvety (@$class) {
 		<dt class="title4"><%= $otvety->{id} %>
         <dt class="title3"><%= $otvety->{name} %>
         <dt class="title4"><%= "$otvety->{otvety} из ($otvety->{size})" %>
-        <dt class="title4"><a href="/pokazat/<%= $otvety->{id} %>">Детально</a>
-						   <a href="/delete/<%= $otvety->{id} %>">Удалить</a>
+        <dt class="title4">
+           <a href="/student/<%= $otvety->{id} %>/view">Детально</a>
+           <a href="/student/<%= $otvety->{id} %>/delete">Удалить</a>
 %   }
 
 </dl> 

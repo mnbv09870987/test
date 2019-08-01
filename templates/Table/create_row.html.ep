@@ -1,0 +1,22 @@
+ 
+<a class="title4" href="<%= url_for 'list' %>">Вернуться</a>
+
+<%
+
+  my $table = ucfirst $c->param( 'table' );
+
+  my $columns =  $c->table_columns( $table );
+
+%>
+
+
+%= form_for 'create_data' => begin
+
+	% for my $field ( @$columns ) { # @columns = ( answer answer1 )
+        <p><b> Введите значение в поле <%= $field %>  </b></p>
+	 	<input name = "<%= $field %>" type = "text" ><br>
+	% }                                                        
+    <input type = "submit">
+
+% end
+ 

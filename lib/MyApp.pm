@@ -23,6 +23,7 @@ sub startup {
   $self->defaults( layout => 'one' );
 
   my $r = $self->routes;
+
   $r->get('/')->to('list1#novoe');
   $r->get('/start')->to('list1#novoe') -> name( 'start' );
   $r->post('/start')->to('list1#vvod_dannyh');
@@ -32,11 +33,24 @@ sub startup {
 
   $r->get('/results')->to('list1#proverka_otvetov') -> name( 'finish' );
 
-  $r->get('/out')->to('list1#vyvod_rezultatov') -> name( 'out' );;
+  $r->get('/out')->to('list1#vyvod_rezultatov') -> name( 'out' );
 
-  $r->get('/pokazat/:id')->to('list1#pokazat');
+  $r->get('/student/:id/view')->to('list1#view') -> name( 'view' );
 
-  $r->get('/delete/:id')->to('list1#delete') -> name( 'delete' );
+  $r->get('/student/:id/delete')->to('list1#delete') -> name( 'delete' );
+
+  $r->get( '/:table/'        )->to( 'table#list'        )->name( 'list' );
+  $r->get( '/:table/create'  )->to( 'table#create_get'  )->name( 'create_form' );
+  $r->post( '/:table/create' )->to( 'table#create_post' )->name( 'create_data' );
+
+  $r->get( '/:table/:id/edit_form'  )->to( 'table#edit_get'  )
+  ->name( 'edit_form' );
+  $r->post( '/:table/:id/edit' )->to( 'table#edit_post' )
+  ->name( 'edit_data' );
+
+  $r->get( '/:table/:id/view'   )->to( 'table#view'   )->name( 'view_row'   );
+  $r->get( '/:table/:id/delete' )->to( 'table#delete' )->name( 'delete_row' );
+  warn "start\n";
 
 }
 

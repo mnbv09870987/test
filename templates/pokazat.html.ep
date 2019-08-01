@@ -1,5 +1,8 @@
  <meta charset="utf-8">
 
+% (my $table) =  (ref $c) =~ m/MyApp::Controller::(.*)/;
+
+
 %  my $uid = $id;
 
 <%
@@ -51,4 +54,6 @@
 %   }
 
 </dl> 
-
+%#<a href="/user/<%= $otvety->{id} %>/edit/">Ред</a>
+%#<a href="/user/<%= $otvety->{id} %>/save/">Сох</a>
+%#<a href="/user/<%= $otvety->{id} %>/delete/">Уд</a>

@@ -1,0 +1,32 @@
+ <meta charset="utf-8">
+
+  <p class="vyvod_table"><b>Таблица</b></p>
+
+<a class="title4" href="<%= url_for 'create_form' %>">Добавить</a>
+
+<%
+  my $table = ucfirst $c->param( 'table' );
+  my $conf =  $c->config->{ tables }{ $table };
+
+  my $columns =  $c->table_columns( $table );
+  my $grid_conf = $c->table_grid_conf($table, $columns, 'with actions');
+%>
+
+<dl class="table" style="grid-template-columns: <%= "@$grid_conf" %>">
+  % for my $column_name ( @$columns ) {
+      <dt class="title1"><%= $column_name %>
+  % }
+  <dt class="title2">Действие
+
+% for my $row ( $rows->all ) {
+    % for my $column ( @$columns ) {
+          <dt class="title4"><%= $row->$column   %>
+    % }
+    <dt class="title4">
+      %= link_to 'Пос' => 'view_row',   { id => $row->id }
+      %= link_to 'Ред' => 'edit_form',   { id => $row->id }
+      %= link_to 'Уд'    => 'delete_row', { id => $row->id }
+%   }
+
+</dl> 
+

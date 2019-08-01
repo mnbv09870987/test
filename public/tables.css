@@ -1,0 +1,10 @@
+.table_view {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    width: 95%;
+    font-weight: bold;
+}
+
+.table_view > dt {
+    border: 1px solid black;
+}

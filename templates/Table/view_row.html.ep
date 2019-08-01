@@ -1,0 +1,28 @@
+
+<a class="title4" href="<%= url_for 'list' %>">Вернуться</a>
+
+<%
+  my $table = ucfirst $c->param( 'table' );
+  my $conf =  $c->config->{ tables }{ $table };
+
+  my $columns =  $c->table_columns( $table );
+  my $grid_conf = $c->table_grid_conf($table, $columns);
+%>
+
+<dl class="table" style="grid-template-columns: <%= "@$grid_conf" %>">
+  % for my $column_name ( @$columns ) {
+      <dt class="title1"><%= $column_name %>
+  % }
+
+
+% for my $a ( $row ) {
+    % for my $column ( @$columns ) {
+          <dt class="title4"><%= $a->$column   %>
+    % }
+%   }
+
+</dl> 
+
+
+		
+        
