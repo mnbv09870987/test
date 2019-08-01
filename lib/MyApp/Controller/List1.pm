@@ -9,11 +9,31 @@ use warnings;
 
 # use parent 'MyApp::Controller::User';
 
+my @missed_questions = ();
+
+my %hash1 = ( 1 => 2, 2 => 2, 3 => 1, 4 => 3, 5 => 2,
+              6 => 2, 7 => 3, 8 => 3, 9 => 2, 10 => 3,
+              11 => 2, 12 => 2, 13 => 2, 14 => 3, 15 => 2,
+              16 => 2, 17 => 2, 18 => 3, 19 => 2, 20 => 3,
+              21 => 2, 22 => 1, 23 => 3, 24 => 3, 25 => 2,
+              26 => 2, 27 => 1, 28 => 3, 29 => 2, 30 => 1,
+              31 => 3, 32 => 2, 33 => 1, 34 => 3, 35 => 1,
+              36 => 3, 37 => 2, 38 => 3, 39 => 1, 40 => 2,
+              41 => 1, 42 => 2, 43 => 2, 44 => 1, 45 => 3,
+              46 => 1, 47 => 1, 48 => 1, 49 => 2, 50 => 3,
+              51 => 2, 52 => 1, 53 => 2, 54 => 1, 55 => 1,
+              56 => 2, 57 => 1, 58 => 2, 59 => 2, 60 => 1,
+              61 => 2, 62 => 1, 63 => 3, 64 => 2, 65 => 1,
+              66 => 2, 67 => 3, 68 => 1, 69 => 2, 70 => 1,
+            );
+
+
 sub novoe {
   my $c = shift;
 
   $c->render( "start_list" );
 }
+
 
 sub vvod_dannyh {
   my( $c ) =  @_;
@@ -39,19 +59,31 @@ sub programma {
 
   my $uid =  $c->cookie( 'user_id' );
   my $num =  $c->cookie( 'num' );
-
+  
   $c->render( "list", user_id => $uid, number => $num );
 }
+
+
+sub programma1 {
+  my( $c ) =  @_;
+
+  my $uid =  $c->cookie( 'user_id' );
+  my $num =  $c->cookie( 'num' );
+  
+  $c->render( "list_two", user_id => $uid, number => $num );
+}
+
 
 sub answer {
   my( $c ) =  @_;
 
   my $input =  $c->param( 'answer' );
-  if ( !defined $input ) {
+  my $skip =  $c->param( 'skip' );
+
+  if ( !defined $input && !defined $skip ) {
     $c->redirect_to( 'stranitsa' );
     return;
   }
-
 
   my $uid =  $c->cookie( 'user_id' );
     if ( $uid == ' ' ) {
@@ -60,17 +92,40 @@ sub answer {
       return;
     }
   my $num =  $c->cookie( 'num' );
+  my $last_question =  $num >= 70;
+  
+  if ( $skip ) {
+    push ( @missed_questions, $num );
+    if ( $last_question ) {
+      $num = shift @missed_questions;
+      $c->cookie( num => $num );
+      $c->redirect_to( 'stranitsa1' );
+      return;
+    }
+    $c->cookie( num => $num+1 );
+    $c->redirect_to( 'stranitsa' );
+    return;
+  }
+
   my $a =  $c->model( 'Answer' )->create({ 
     answer => $input, 
     question => $num,
     user_id => $uid,
   });
 
+  if ( $last_question ) {
+    if ( @missed_questions ) {
+      $num = shift @missed_questions;
+      $c->cookie( num => $num );
+      $c->redirect_to( 'stranitsa1' );
+      return;
+    }
+  }
 
   my $no_time       =  (time - $c->cookie( 'time' )) > 1500;
-  my $last_question =  $num >= 70;
   if( $no_time  ||  $last_question ) {
     $c->redirect_to( "finish" );
+    return;
   }
   else {
     $c->cookie( num => $num+1 );
@@ -79,21 +134,54 @@ sub answer {
 }
 
 
-  my %hash1 = ( 1 => 2, 2 => 2, 3 => 1, 4 => 3, 5 => 2,
-                6 => 2, 7 => 3, 8 => 3, 9 => 2, 10 => 3,
-                11 => 2, 12 => 2, 13 => 2, 14 => 3, 15 => 2,
-                16 => 2, 17 => 2, 18 => 3, 19 => 2, 20 => 3,
-                21 => 2, 22 => 1, 23 => 3, 24 => 3, 25 => 2,
-                26 => 2, 27 => 1, 28 => 3, 29 => 2, 30 => 1,
-                31 => 3, 32 => 2, 33 => 1, 34 => 3, 35 => 1,
-                36 => 3, 37 => 2, 38 => 3, 39 => 1, 40 => 2,
-                41 => 1, 42 => 2, 43 => 2, 44 => 1, 45 => 3,
-                46 => 1, 47 => 1, 48 => 1, 49 => 2, 50 => 3,
-                51 => 2, 52 => 1, 53 => 2, 54 => 1, 55 => 1,
-                56 => 2, 57 => 1, 58 => 2, 59 => 2, 60 => 1,
-                61 => 2, 62 => 1, 63 => 3, 64 => 2, 65 => 1,
-                66 => 2, 67 => 3, 68 => 1, 69 => 2, 70 => 1,
-              );
+sub answer_two_cyrcle {
+  my( $c ) =  @_;
+
+  my $input =  $c->param( 'answer' );
+  my $skip =  $c->param( 'skip' );
+
+  if ( !defined $input && !defined $skip ) {
+    $c->redirect_to( 'stranitsa1' );
+    return;
+  }
+
+  my $uid =  $c->cookie( 'user_id' );
+    if ( $uid == ' ' ) {
+      $c->redirect_to( 'start' );
+      return;
+    }
+
+  my $num =  $c->cookie( 'num' );
+
+  if ( $skip ) {
+    push ( @missed_questions, $num );
+    $num = shift @missed_questions;
+    $c->cookie( num => $num );
+    $c->redirect_to( 'stranitsa1' );
+    return;
+  }
+
+  my $a =  $c->model( 'Answer' )->create({ 
+    answer => $input, 
+    question => $num,
+    user_id => $uid,
+  });
+
+  if ( @missed_questions ) {
+    $num = shift @missed_questions;
+    $c->cookie( num => $num );
+    $c->redirect_to( 'stranitsa1' );
+    return;
+  }
+
+
+  my $no_time       =  (time - $c->cookie( 'time' )) > 1500;
+  if( $no_time ||  !@missed_questions ) {
+    # DB::x;
+    $c->redirect_to( "finish" );
+  }
+
+}
 
 
   sub _total_calc {
@@ -116,6 +204,12 @@ sub answer {
 sub proverka_otvetov {
   my( $c ) =  @_;
   my $uid =  $c->cookie( 'user_id' );
+
+  if ( $uid == ' ' ) {
+
+      $c->redirect_to( 'start' );
+      return;
+  }
 
   my $u =  $c->model( 'User' )->search({ id => $uid })->first;
   my ($kol, $size, $uid) =  _total_calc( $c, $uid );
@@ -180,60 +274,5 @@ sub delete {
     $c->redirect_to ( 'out' );
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# sub vyvod_rezultatov {
-
-#     my( $c ) =  @_;
-
-#     my @user =  $c->model( 'User' )
-#       # ->search({},{ order_by => 'name' })
-#       ->all;
-#     my @otvety = ();
-
-#     for my $i (@user) {
-#         my %otv = ();
-#         my ($kol, $size, $uid) = _total_calc( $c, $i->id );
-#         $otv{ name } = $i->name;
-#         $otv{ otvety } = $kol;
-#         $otv{ size } = $size;
-#         $otv{ id } = $uid;
-#         push (@otvety, \%otv);
-#     }
-
-#     @otvety = sort { $a->{ name } cmp $b->{ name } } @otvety;
-
-#     $c->render( "vyvod", answer => \@otvety  );
-
-# }
-
-
-# sub pokazat {
-
-#     my( $c ) =  @_;
-#     my $id =  $c->param( 'id' );
-
-#     $c->render( "pokazat", id => $id  );
-
-# }
-
-
-
 
 1;

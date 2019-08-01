@@ -1,7 +1,7 @@
  <meta charset="utf-8">
  
 %# <form action="/<%= $page %>" method="POST">
-<form action="/page" method="POST">
+<form action="/page1" method="POST">
   <p><b>Дай ответ на вопрос №<%= $number %>?</b></p>
 %# DB::x;
   <img src="/picture<%= sprintf "%03d", $number %>.jpg">

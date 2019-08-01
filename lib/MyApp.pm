@@ -31,6 +31,9 @@ sub startup {
   $r->get('/page')->to('list1#programma') -> name( 'stranitsa' );
   $r->post('/page')->to('list1#answer');
 
+  $r->get('/page1')->to('list1#programma1') -> name( 'stranitsa1' );
+  $r->post('/page1')->to('list1#answer_two_cyrcle');
+
   $r->get('/results')->to('list1#proverka_otvetov') -> name( 'finish' );
 
   $r->get('/out')->to('list1#vyvod_rezultatov') -> name( 'out' );
