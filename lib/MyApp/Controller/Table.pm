@@ -16,7 +16,7 @@ sub view {
 	my $c = shift;
 
     my $table =  ucfirst $c->param( 'table' );
-	
+
 	my $id    =  $c->param( 'id' );
 	my $row  =  $c->model( $table )->search({
 		id   => $id,

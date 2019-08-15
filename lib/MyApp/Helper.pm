@@ -25,6 +25,41 @@ sub add_helpers {
 
     $app->helper( table_grid_conf => \&get_table_grid_conf );
 
+    $app->helper( total_calc => \&answer_total_calc );
+}
+
+
+use DBIx::Class::Report;
+my $qrKolQuestion = <<SQL;
+  SELECT 
+  count(*) as all, 
+  count( student.id ) as correct, 
+  count( student_all.id ) as answered
+FROM answer etalon 
+LEFT JOIN answer student on student.user_id = ?
+  AND student.question = etalon.question
+  AND student.answer = etalon.answer
+LEFT JOIN answer student_all on student_all.user_id = ?
+  AND student_all.question = etalon.question 
+WHERE etalon.user_id = 0
+SQL
+
+
+sub answer_total_calc {
+	my( $c, $uid ) =  @_;
+
+	my $report = DBIx::Class::Report->new(
+		schema  => $c->db,
+		sql     => $qrKolQuestion,
+		columns => [qw/ all correct answered /],
+	);
+
+	my $rs =  $report->fetch( $uid, $uid );
+
+	my $kol  = $rs -> first -> correct;
+	my $size = $rs -> first -> answered;
+
+	return ($kol, $size);
 }
 
 
@@ -54,7 +89,7 @@ sub get_table_grid_conf {
 	if( $conf ) {
 		@grid_conf =  map{ $conf->{ $_ }{ width } } @$columns;
 		if( $zzz ) { 
-			push @grid_conf, 'actions'
+			push @grid_conf, $conf->{actions}{width}
 		}
 	}
 	else {
@@ -62,22 +97,6 @@ sub get_table_grid_conf {
 		if( $zzz ) { 
 			push @grid_conf, $c->config->{ actions_column }{ width }
 		}
-	}
-	return \@grid_conf;
-}
-
-
-
-sub get_table_grid_conf_view {
-	my( $c, $table, $columns ) =  @_;
-	my $conf =  $c->config->{ tables }{ $table };
-	my ( @grid_conf, @columns );
-
-	if( $conf ) {
-		@grid_conf =  map{ $conf->{ $_ }{ width } } @$columns;
-	}
-	else {
-		@grid_conf =  map{ '1fr' } @$columns;
 	}
 	return \@grid_conf;
 }
@@ -178,7 +197,6 @@ sub client_country_code {
 
 	return $name;
 }
-
 
 
 1;

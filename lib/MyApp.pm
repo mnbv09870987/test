@@ -24,23 +24,19 @@ sub startup {
 
   my $r = $self->routes;
 
-  $r->get('/')->to('list1#novoe');
-  $r->get('/start')->to('list1#novoe') -> name( 'start' );
-  $r->post('/start')->to('list1#vvod_dannyh');
+  $r->get('/')->to('bennet#registration_get');
+  $r->get('/start')->to('bennet#registration_get') -> name( 'registration' );
+  $r->post('/start')->to('bennet#registration_post');
 
-  $r->get('/page')->to('list1#programma') -> name( 'stranitsa' );
-  $r->post('/page')->to('list1#answer');
+  $r->get( '/next_question' )->to( 'bennet#next_question' )->name( 'nq' );
+  $r->post('/next_question')->to('bennet#saving_answers');
 
-  $r->get('/page1')->to('list1#programma1') -> name( 'stranitsa1' );
-  $r->post('/page1')->to('list1#answer_two_cyrcle');
+  $r->get('/results')->to('bennet#show_results') -> name( 'finish' );
+  $r->get('/out')->to('bennet#output_results') -> name( 'out' );
+  $r->get('/student/:id/view')->to('bennet#view') -> name( 'view' );
+  $r->get('/student/:id/delete')->to('bennet#delete') -> name( 'delete' );
 
-  $r->get('/results')->to('list1#proverka_otvetov') -> name( 'finish' );
 
-  $r->get('/out')->to('list1#vyvod_rezultatov') -> name( 'out' );
-
-  $r->get('/student/:id/view')->to('list1#view') -> name( 'view' );
-
-  $r->get('/student/:id/delete')->to('list1#delete') -> name( 'delete' );
 
   $r->get( '/:table/'        )->to( 'table#list'        )->name( 'list' );
   $r->get( '/:table/create'  )->to( 'table#create_get'  )->name( 'create_form' );

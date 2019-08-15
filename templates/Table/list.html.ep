@@ -9,6 +9,7 @@
   my $conf =  $c->config->{ tables }{ $table };
 
   my $columns =  $c->table_columns( $table );
+
   my $grid_conf = $c->table_grid_conf($table, $columns, 'with actions');
 %>
 

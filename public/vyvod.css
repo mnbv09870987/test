@@ -11,9 +11,20 @@
         font-weight: bold;
     }
 
+    .table1 {
+        display: grid;
+        grid-template-columns: 10% 20% 20% 20% 30%;
+        width: 95%;
+        font-weight: bold;
+    }
+
+    .table1 > dt {
+        border: 1px solid black;
+    }
+
+
     .table > dt {
         border: 1px solid black;
-        
     }
 
     .title1 {
