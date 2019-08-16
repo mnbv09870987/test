@@ -18,7 +18,6 @@ sub registration_get {
 }
 
 
-
 sub registration_post {
   my( $c ) =  @_;
 
@@ -48,9 +47,11 @@ select * from answer where user_id = 0 and question not in (
 ) limit 1
 SQL
 
+
 sub next_question {
   my $c =  shift;
 
+  my $dsAnswer;
   my $uid =  $c->cookie( 'user_id' );
   if( !$uid ) {
     $c->redirect_to( 'registration' );
@@ -59,6 +60,9 @@ sub next_question {
 
   my $no_time =  (time - $c->cookie( 'time' )) > 1500;
   if( $no_time ) {
+    $dsAnswer =  $c->model( 'Answer' )->search({ user_id => $uid, answer => 0 });
+    $dsAnswer->delete;
+
     $c->redirect_to( "finish" );
     return;
   }
@@ -73,7 +77,7 @@ sub next_question {
   my $rs =  $report->fetch( $uid );
  
   if( !$rs->count ) {
-    my $dsAnswer =  $c->model( 'Answer' )->search({ user_id => $uid, answer => 0 });
+    $dsAnswer =  $c->model( 'Answer' )->search({ user_id => $uid, answer => 0 });
     $dsAnswer->delete; 
 
     $rs =  $report->fetch( $uid );

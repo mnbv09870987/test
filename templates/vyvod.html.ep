@@ -5,7 +5,7 @@
 % my ( $class ) = $answer;
 % (my $table) =  (ref $c) =~ m/MyApp::Controller::(.*)/;
 %# my $q = $class->{ answer };
-%# DB::x;
+
 <dl class="table">
         <dt class="title1">id
         <dt class="title1">Фамилия Имя

@@ -1,8 +1,14 @@
  <meta charset="utf-8">
  
 <form action="/next_question" method="POST">
+
+% my $time = 1500 - (time - $c->cookie( 'time' ));
+% my $min = int ( $time / 60 );
+% my $sec = int ((( $time / 60 ) - $min) * 60);
+
+  <p>До завершения <%= $min %> мин. <%= $sec %> сек.</p>
+
   <p><b>Дай ответ на вопрос №<%= $number %>?</b></p>
-%# DB::x;
   <img src="/picture<%= sprintf "%03d", $number %>.jpg">
   <p>
       <input type="radio" name="answer" value="1" >Вариант 01<br>
