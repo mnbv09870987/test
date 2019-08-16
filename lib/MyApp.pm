@@ -29,7 +29,8 @@ sub startup {
   $r->post('/start')->to('bennet#registration_post');
 
   $r->get( '/next_question' )->to( 'bennet#next_question' )->name( 'nq' );
-  $r->post('/next_question')->to('bennet#saving_answers');
+  $r->post('/next_question')->to('bennet#saving_answers') ->name( 'nq_post' );
+  $r->get('/missed_question')->to('bennet#saving_answers') ->name( 'nq_get' );
 
   $r->get('/results')->to('bennet#show_results') -> name( 'finish' );
   $r->get('/out')->to('bennet#output_results') -> name( 'out' );

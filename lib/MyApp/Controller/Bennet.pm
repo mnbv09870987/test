@@ -95,7 +95,6 @@ sub next_question {
 }
 
 
-
 sub saving_answers {
   my( $c ) =  @_;
 
@@ -106,9 +105,8 @@ sub saving_answers {
   }
 
   my $input =  $c->param( 'answer' );
-  my $skip  =  $c->param( 'skip'   );
 
-  if ( !defined $input && !defined $skip ) {
+  if ( !defined $input ) {
     $c->redirect_to( 'nq' );
     return;
   }
@@ -116,7 +114,7 @@ sub saving_answers {
 
   my $num =  $c->cookie( 'num' );
   my $a =  $c->model( 'Answer' )->create({ 
-    answer   => $skip? 0 : $input, 
+    answer   => $input,
     question => $num,
     user_id  => $uid,
   });
@@ -124,6 +122,7 @@ sub saving_answers {
 
   $c->redirect_to( 'nq' );
 }
+
 
 
 sub show_results {

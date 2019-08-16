@@ -1,6 +1,5 @@
  <meta charset="utf-8">
  
-<form action="/next_question" method="POST">
 
 % my $time = 1500 - (time - $c->cookie( 'time' ));
 % my $min = int ( $time / 60 );
@@ -10,15 +9,15 @@
 
   <p><b>Дай ответ на вопрос №<%= $number %>?</b></p>
   <img src="/picture<%= sprintf "%03d", $number %>.jpg">
+
+<form action="/next_question" method="POST">
   <p>
-      <input type="radio" name="answer" value="1" >Вариант 01<br>
+    <input type="radio" name="answer" value="1" >Вариант 01<br>
 	  <input type="radio" name="answer" value="2" >Вариант 02<br>
 	  <input type="radio" name="answer" value="3" >Вариант 03<br>
-	  <input type="radio" name="skip"             >Пропустить<br>
 	  <input type="submit">
   </p>
 </form>
-
-
+<a href="<%= url_for( 'nq_get' ) -> query ( answer => 0 ) %>">Пропустить</a>
 
   
