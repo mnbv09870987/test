@@ -22,6 +22,10 @@ $T->add_columns(
 	user_id =>  {
 		data_type   =>  'integer',
 	},
+	time =>  {
+		data_type     =>  'integer',
+		default_value => 0,
+	},
 );
 
 $T->set_primary_key( 'id' );
