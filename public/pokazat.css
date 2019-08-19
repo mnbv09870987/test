@@ -2,7 +2,7 @@
     
     .table_rezult {
         display: grid;
-        grid-template-columns: 30% 30% 40%;
+        grid-template-columns: 25% 25% 30% 20%;
         width: 80%;
         font-weight: bold;
     }
@@ -13,7 +13,7 @@
     }
 
 
-    .stroka1 {
+    .span2 {
         grid-column: span 2;
         font: 20pt arial;
         text-align: center;
@@ -21,14 +21,14 @@
 
     }
 
-    .stroka2 {
+    .center35 {
         font: 20pt arial;
         text-align: center;
         height: 35px;
 
     }
 
-    .stroka3 {
+    .bold_span2 {
         grid-column: span 2;
         font: 20pt arial;
         text-align: center;
@@ -36,7 +36,7 @@
         font-weight: bold;
     }
 
-    .stroka4 {
+    .bold_center35 {
         font: 20pt arial;
         text-align: center;
         height: 35px;
@@ -44,7 +44,7 @@
 
     }
 
-    .stroka {
+    .center25 {
         font: 15pt arial;
         text-align: center;
         height: 25px;

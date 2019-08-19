@@ -31,19 +31,25 @@ sub registration_post {
 
 
   my $u =  $c->model( 'User' )->create({ name => $name, age => $age });
-  $c->cookie( user_id => $u->id );
-  $c->cookie( time    => time   );
-
+  $c->cookie( user_id        => $u->id );
+  $c->cookie( time           => time   );
+  $c->cookie( time_answer    => time   );
 
   $c->redirect_to ( 'nq' );
 }
 
 
+# use DBIx::Class::Report;
+# my $qrNextQuestion = <<SQL;
+# select * from answer where user_id = 0 and question <= 10 and question not in ( 
+#   select question from answer where user_id = ? and answer >= 0
+# ) limit 1
+# SQL
 
 use DBIx::Class::Report;
 my $qrNextQuestion = <<SQL;
 select * from answer where user_id = 0 and question not in ( 
-  select question from answer where user_id = ?
+  select question from answer where user_id = ? and answer >= 0
 ) limit 1
 SQL
 
@@ -61,24 +67,23 @@ sub next_question {
   my $no_time =  (time - $c->cookie( 'time' )) > 1500;
   if( $no_time ) {
     $dsAnswer =  $c->model( 'Answer' )->search({ user_id => $uid, answer => 0 });
-    $dsAnswer->delete;
+    $dsAnswer->update ({ answer => -1 });
 
     $c->redirect_to( "finish" );
     return;
   }
-
-
+  
   my $report = DBIx::Class::Report->new(
     schema  => $c->db,
     sql     => $qrNextQuestion,
     columns => [qw/ id question answer user_id /],
   );
- 
+
   my $rs =  $report->fetch( $uid );
  
   if( !$rs->count ) {
     $dsAnswer =  $c->model( 'Answer' )->search({ user_id => $uid, answer => 0 });
-    $dsAnswer->delete; 
+    $dsAnswer->update ({ answer => -1 });
 
     $rs =  $report->fetch( $uid );
   }
@@ -105,20 +110,35 @@ sub saving_answers {
   }
 
   my $input =  $c->param( 'answer' );
+  my $time_answer = time - $c->cookie( 'time_answer' );
 
   if ( !defined $input ) {
     $c->redirect_to( 'nq' );
     return;
   }
 
-
   my $num =  $c->cookie( 'num' );
-  my $a =  $c->model( 'Answer' )->create({ 
-    answer   => $input,
+  my $miss_que = $c->model( 'Answer' )->search({
+    user_id => $uid,
     question => $num,
-    user_id  => $uid,
-  });
+    }) -> first;
 
+  if ( $miss_que ) {
+    $miss_que -> update ({
+      answer => $input,
+      time => ($miss_que -> time) + $time_answer,
+      });
+  }
+    else {
+      my $a =  $c->model( 'Answer' )->create({
+        answer   => $input,
+        question => $num,
+        user_id  => $uid,
+        time     => $time_answer,
+      });
+    }
+
+  $c->cookie( time_answer    => time );
 
   $c->redirect_to( 'nq' );
 }
@@ -154,6 +174,18 @@ sub output_results {
       
     for my $u ( @user ) {
         my %otv = ();
+
+        my @answer =  $c->model( 'Answer' )->search({
+            user_id   => $u->id,
+            }) -> all;
+# DB::x;
+        my $time_total;
+        for my $t ( @answer ) {
+            $time_total = $time_total + ( $t -> time );
+        }
+        my $min_total = int ( $time_total / 60 );
+        my $sec_total = int ((( $time_total / 60 ) - $min_total) * 60);
+
        
         my( $kol, $size ) = $c->total_calc( $u->id );
         $otv{ name }   = $u->name;
@@ -161,6 +193,8 @@ sub output_results {
         $otv{ otvety } = $kol;
         $otv{ size }   = $size;
         $otv{ id }     = $u->id;
+        $otv{ min_total }     = $min_total;
+        $otv{ sec_total }     = $sec_total;
         push (@otvety, \%otv);
     }
 
@@ -176,7 +210,7 @@ sub view {
     my( $c ) =  @_;
     my $id =  $c->param( 'id' );
 
-    $c->render( "pokazat", ccc => $c, id => $id  );
+    $c->render( "pokazat", id => $id  );
 
 }
 

@@ -11,7 +11,7 @@
 
 <dl class="table" style="grid-template-columns: <%= "@$grid_conf" %>">
   % for my $column_name ( @$columns ) {
-      <dt class="title1"><%= $column_name %>
+      <dt class="center20"><%= $column_name %>
   % }
 
 

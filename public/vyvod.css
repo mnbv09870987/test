@@ -6,7 +6,7 @@
 
     .table {
         display: grid;
-        grid-template-columns: 10% 40% 20% 35%;
+        grid-template-columns: 10% 33% 15% 17% 25%;
         width: 95%;
         font-weight: bold;
     }
@@ -27,13 +27,7 @@
         border: 1px solid black;
     }
 
-    .title1 {
-        font: 20pt arial;
-        text-align: center;
-        height: auto;
-     }
-
-    .title2 {
+    .center20 {
         font: 20pt arial;
         text-align: center;
         height: auto;

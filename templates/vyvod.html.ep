@@ -7,18 +7,22 @@
 %# my $q = $class->{ answer };
 
 <dl class="table">
-        <dt class="title1">id
-        <dt class="title1">Фамилия Имя
-        <dt class="title2">Правильных ответов
-        <dt class="title2">Действие
+        <dt class="center20">id
+        <dt class="center20">Фамилия Имя
+        <dt class="center20">Правильных ответов
+        <dt class="center20">Время на тест
+        <dt class="center20">Действие
 
 %     for my $otvety (@$class) {
-		<dt class="title4"><%= $otvety->{id} %>
+		    <dt class="title4"><%= $otvety->{id} %>
         <dt class="title3"><%= $otvety->{name} %>
         <dt class="title4"><%= "$otvety->{otvety} из ($otvety->{size})" %>
         <dt class="title4">
-           <a href="/student/<%= $otvety->{id} %>/view">Детально</a>
-           <a href="/student/<%= $otvety->{id} %>/delete">Удалить</a>
+            <%= sprintf "%02d", $otvety->{min_total} %> мин. 
+            <%= sprintf "%02d", $otvety->{sec_total} %> сек.
+        <dt class="title4">
+            <a href="/student/<%= $otvety->{id} %>/view">Детально</a>
+            <a href="/student/<%= $otvety->{id} %>/delete">Удалить</a>
 %   }
 
 </dl> 

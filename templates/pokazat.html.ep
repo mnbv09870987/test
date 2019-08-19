@@ -6,30 +6,40 @@
 <%
 
     my $uid = $id;
-
-    my( $kol, $size ) = $c->total_calc( $uid );
     my $u =  $c->model( 'User' )->search({ id => $uid })->first;
-    
-    my @answer =  $c->model( 'Answer' )->search({ user_id   => $uid }) -> all;
+    my( $kol, $size ) = $c->total_calc( $uid );
 
+    my @answer =  $c->model( 'Answer' )->search({user_id   => $uid },
+        { order_by => 'question' }) -> all;
+    
+    my $time_total;
+    for my $t ( @answer ) {
+        $time_total = $time_total + ( $t -> time );
+    }
+    my $min_total = int ( $time_total / 60 );
+    my $sec_total = int ((( $time_total / 60 ) - $min_total) * 60);
+    
 %>
 
 <dl class="table_rezult">
-        <dt class="stroka1">Фамилия Имя
-        <dt class="stroka2">Правильных ответов
+        <dt class="span2">Фамилия Имя
+        <dt class="center35">Правильных ответов
+        <dt class="center35">Общее время
 
-        <dt class="stroka3"><%= $u->name %>
-        <dt class="stroka4"><%= $kol %>
+        <dt class="bold_span2"><%= $u->name %>
+        <dt class="bold_center35"><%= $kol %>
+        <dt class="bold_center35"><%= $min_total %> мин. <%= $sec_total %> сек.
 
-        <dt class="stroka">Номер вопроса
-        <dt class="stroka">Ответ пользователя
-        <dt class="stroka">Правильный ответ
+        <dt class="center25">Номер вопроса
+        <dt class="center25">Ответ пользователя
+        <dt class="center25">Правильный ответ
+        <dt class="center25">Время на ответ
 
 
 %   my $prav_otvet;
 
 %   for my $a ( @answer ) {
-        <dt class="stroka"><%= $a->question %>
+        <dt class="center25"><%= $a->question %>
 
 %       my $otvet = $c->model( 'Answer' )->search
 %       ({ user_id  => 0, question => $a->question }) ->first;
@@ -38,9 +48,15 @@
 %       if ( $a->answer != $prav_otvet ){
              <dt class="colortext"><%= $a->answer %>
 %           } else {
-            <dt class="stroka"><%= $a->answer %>
+            <dt class="center25"><%= $a->answer %>
 %           }
-        <dt class="stroka"><%= $prav_otvet %>
+        <dt class="center25"><%= $prav_otvet %>
+
+%       my $time = $a->time;
+%       my $min = int ( $time / 60 );
+%       my $sec = int ((( $time / 60 ) - $min) * 60);
+
+        <dt class="center25"><%= $min %> мин. <%= sprintf "%02d", $sec %> сек.
 %   }
 
 </dl> 
