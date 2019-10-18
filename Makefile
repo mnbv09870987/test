@@ -80,6 +80,19 @@ docker-dbshell:
 	docker exec -it ${DOCKER_CONTAINER} psql -U postgres -d ${DB_NAME}
 
 
+dbdump: export PGPASSWORD =  ${DB_PASS}
+dbdump:
+	file=${APP_ROOT}/db/${DB_NAME}-$$(date "+%Y-%m-%d_%H-%M-%S").sql.gz
+	pg_dump -h ${DB_HOST} -U ${DB_USER} ${DB_NAME} | gzip -f > $${file}
+	cp $${file} ${APP_ROOT}/db/${DB_NAME}.sql.gz
+
+
+dbrestore: export PGPASSWORD =  ${DB_PASS}
+dbrestore: dbclear
+	zcat ${APP_ROOT}/db/${DB_NAME}.sql.gz | \
+		psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} ${DB_NAME}
+
+
 dbshell: export PGPASSWORD =  ${DB_PASS}
 dbshell:
 	psql -h ${DB_HOST} -p ${DB_PORT} -U ${DB_USER} ${DB_NAME} ||:
