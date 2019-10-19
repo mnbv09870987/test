@@ -179,7 +179,7 @@ sub output_results {
             user_id   => $u->id,
             }) -> all;
 # DB::x;
-        my $time_total;
+        my $time_total =  0;
         for my $t ( @answer ) {
             $time_total = $time_total + ( $t -> time );
         }
