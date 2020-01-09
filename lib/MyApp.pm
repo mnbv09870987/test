@@ -28,6 +28,8 @@ sub startup {
   $r->get('/start')->to('bennet#registration_get') -> name( 'registration' );
   $r->post('/start')->to('bennet#registration_post');
 
+  $r->get('/init')->to('bennet#vvod_pravelnyh_otvetov') ->name( 'init' );
+
   $r->get( '/next_question' )->to( 'bennet#next_question' )->name( 'nq' );
   $r->post('/next_question')->to('bennet#saving_answers') ->name( 'nq_post' );
   $r->get('/miss_question')->to('bennet#saving_answers') ->name( 'nq_get' );

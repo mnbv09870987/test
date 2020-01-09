@@ -11,7 +11,7 @@ use warnings;
 # use parent 'MyApp::Controller::User';
 
 
-sub registration_get {   
+sub registration_get {
   my $c = shift;
 
   $c->render( "registration_list" );
@@ -29,7 +29,6 @@ sub registration_post {
     return;
   }
 
-
   my $u =  $c->model( 'User' )->create({ name => $name, age => $age });
   $c->cookie( user_id        => $u->id );
   $c->cookie( time           => time   );
@@ -41,14 +40,14 @@ sub registration_post {
 
 # use DBIx::Class::Report;
 # my $qrNextQuestion = <<SQL;
-# select * from answer where user_id = 0 and question <= 10 and question not in ( 
+# select * from answer where user_id = 0 and question <= 10 and question not in (
 #   select question from answer where user_id = ? and answer >= 0
 # ) limit 1
 # SQL
 
 use DBIx::Class::Report;
 my $qrNextQuestion = <<SQL;
-select * from answer where user_id = 0 and question not in ( 
+select * from answer where user_id = 0 and question not in (
   select question from answer where user_id = ? and answer >= 0
 ) limit 1
 SQL
@@ -72,7 +71,7 @@ sub next_question {
     $c->redirect_to( "finish" );
     return;
   }
-  
+
   my $report = DBIx::Class::Report->new(
     schema  => $c->db,
     sql     => $qrNextQuestion,
@@ -80,7 +79,7 @@ sub next_question {
   );
 
   my $rs =  $report->fetch( $uid );
- 
+
   if( !$rs->count ) {
     $dsAnswer =  $c->model( 'Answer' )->search({ user_id => $uid, answer => 0 });
     $dsAnswer->update ({ answer => -1 });
@@ -95,7 +94,7 @@ sub next_question {
 
   my $nextQuestion =  $rs->first;
   $c->cookie( num => $nextQuestion->question );
-  
+
   $c->render( "ask_question", user_id => $uid, number => $nextQuestion->question );
 }
 
@@ -147,10 +146,10 @@ sub saving_answers {
 
 sub show_results {
   my( $c ) =  @_;
-  
+
   my $uid =  $c->cookie( 'user_id' )   or do{
       $c->redirect_to( 'registration' );
-      return;    
+      return;
   };
 
 
@@ -171,7 +170,7 @@ sub output_results {
 
     my @user =  $c->model( 'User' )->all;
     my @otvety = ();
-      
+
     for my $u ( @user ) {
         my %otv = ();
 
@@ -186,7 +185,7 @@ sub output_results {
         my $min_total = int ( $time_total / 60 );
         my $sec_total = int ((( $time_total / 60 ) - $min_total) * 60);
 
-       
+
         my( $kol, $size ) = $c->total_calc( $u->id );
         $otv{ name }   = $u->name;
         $otv{ age }    = $u->age;
@@ -231,6 +230,45 @@ sub delete {
     $dsAnswer->delete;
 
     $c->redirect_to ( 'out' );
+
+
+
+sub vvod_pravelnyh_otvetov {
+
+    my( $c ) =  @_;
+
+    my @otvety =  ( 2, 2, 1, 3, 2, 2, 3, 3, 2, 3,
+                    2, 2, 2, 3, 2, 2, 2, 3, 2, 3,
+                    2, 1, 3, 3, 2, 2, 1, 3, 2, 1,
+                    3, 2, 1, 3, 1, 3, 2, 3, 1, 2,
+                    1, 2, 2, 1, 3, 1, 1, 1, 2, 3,
+                    2, 1, 2, 1, 1, 2, 1, 2, 2, 1,
+                    2, 1, 3, 2, 1, 2, 3, 1, 2, 1
+                  );
+
+    my $question = 1;
+    for my $answer ( @otvety ) {
+
+        my $o = $c->model( 'Answer' )->search({
+            question => $question,
+            answer   => $answer,
+            user_id  => 0,
+        })-> first;
+
+            if ( !$o ) {
+                $c->model( 'Answer' )->create({
+                    question => $question,
+                    answer   => $answer,
+                    user_id  => 0,
+                });
+            }
+
+        $question++;
+        }
+
+    }
+
+
 
 }
 
